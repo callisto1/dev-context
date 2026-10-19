@@ -1,0 +1,492 @@
+# Knowledge Registry
+# Each source is ingested into pgvector under source_type="knowledge".
+#
+# Supported source kinds:
+#   git_docs    — clone a repo, ingest only the docs path (markdown/text)
+#   git_full    — clone a repo, ingest all code and docs (no path filter)
+#   web_docs    — crawl a documentation site starting from seed_url
+#   confluence  — ingest pages from a Confluence Cloud space or by page ID
+#
+# git_docs and git_full sources reuse the existing GitIngester.
+# git_docs uses include_patterns pointing at the docs directory.
+# git_full ingests the entire repository with no path filter.
+# web_docs sources use the WebDocsIngester.
+# confluence sources use the ConfluenceIngester (requires CONFLUENCE_* env vars).
+
+# ─────────────────────────────────────────────
+# CNCF Graduated Projects
+# ─────────────────────────────────────────────
+cncf_graduated:
+
+  - name: prometheus
+    kind: git_docs
+    repo: https://github.com/prometheus/docs.git
+    docs_path: "content/**/*.md"
+    branch: main
+
+  - name: envoy
+    kind: git_docs
+    repo: https://github.com/envoyproxy/envoy.git
+    docs_path: "docs/root/**/*.rst"
+    branch: main
+
+  - name: coredns
+    kind: git_docs
+    repo: https://github.com/coredns/coredns.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: containerd
+    kind: git_docs
+    repo: https://github.com/containerd/containerd.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: fluentd
+    kind: git_docs
+    repo: https://github.com/fluent/fluentd.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: jaeger
+    kind: git_docs
+    repo: https://github.com/jaegertracing/documentation.git
+    docs_path: "content/**/*.md"
+    branch: main
+
+  - name: vitess
+    kind: git_docs
+    repo: https://github.com/vitessio/website.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: prod
+
+  - name: fluxcd
+    kind: git_docs
+    repo: https://github.com/fluxcd/website.git
+    docs_path: "content/en/**/*.md"
+    branch: main
+
+  - name: argo
+    kind: git_docs
+    repo: https://github.com/argoproj/argo-cd.git
+    docs_path: "docs/**/*.md"
+    branch: master
+
+  - name: helm
+    kind: git_docs
+    repo: https://github.com/helm/helm-www.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: main
+
+  - name: harbor
+    kind: git_docs
+    repo: https://github.com/goharbor/website.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: etcd
+    kind: git_docs
+    repo: https://github.com/etcd-io/etcd.git
+    docs_path: "Documentation/**/*.md"
+    branch: main
+
+  - name: open-policy-agent
+    kind: git_docs
+    repo: https://github.com/open-policy-agent/opa.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: tikv
+    kind: git_docs
+    repo: https://github.com/tikv/tikv.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: rook
+    kind: git_docs
+    repo: https://github.com/rook/rook.git
+    docs_path: "Documentation/**/*.md"
+    branch: master
+
+  - name: istio
+    kind: git_docs
+    repo: https://github.com/istio/istio.io.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: master
+
+  - name: linkerd
+    kind: git_docs
+    repo: https://github.com/linkerd/website.git
+    docs_path: "linkerd.io/content/**/*.md"
+    branch: main
+
+  - name: cilium
+    kind: git_docs
+    repo: https://github.com/cilium/cilium.git
+    docs_path: "Documentation/**/*.rst"
+    branch: main
+
+  - name: cert-manager
+    kind: git_docs
+    repo: https://github.com/cert-manager/website.git
+    docs_path: "content/**/*.md"
+    branch: master
+
+  - name: keda
+    kind: git_docs
+    repo: https://github.com/kedacore/keda-docs.git
+    docs_path: "content/docs/**/*.md"
+    branch: main
+
+  - name: dapr
+    kind: git_docs
+    repo: https://github.com/dapr/docs.git
+    docs_path: "daprdocs/content/en/**/*.md"
+    branch: v1.14
+
+  - name: spiffe-spire
+    kind: git_docs
+    repo: https://github.com/spiffe/spiffe.io.git
+    docs_path: "content/**/*.md"
+    branch: master
+
+  - name: falco
+    kind: git_docs
+    repo: https://github.com/falcosecurity/falco-website.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: master
+
+  - name: kyverno
+    kind: git_docs
+    repo: https://github.com/kyverno/website.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: main
+
+  - name: backstage
+    kind: git_docs
+    repo: https://github.com/backstage/backstage.git
+    docs_path: "docs/**/*.md"
+    branch: master
+
+  - name: crossplane
+    kind: git_docs
+    repo: https://github.com/crossplane/docs.git
+    docs_path: "content/**/*.md"
+    branch: master
+
+# ─────────────────────────────────────────────
+# CNCF Incubating Projects (notable)
+# ─────────────────────────────────────────────
+cncf_incubating:
+  - name: knative
+    kind: git_docs
+    repo: https://github.com/knative/docs.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: nats
+    kind: git_docs
+    repo: https://github.com/nats-io/nats-site.git
+    docs_path: "content/**/*.md"
+    branch: main
+
+  - name: grpc
+    kind: git_docs
+    repo: https://github.com/grpc/grpc.io.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: main
+
+  - name: opentelemetry
+    kind: git_docs
+    repo: https://github.com/open-telemetry/opentelemetry.io.git
+    docs_path: "content/en/docs/**/*.md"
+    branch: main
+
+  - name: cloudnative-pg
+    kind: git_docs
+    repo: https://github.com/cloudnative-pg/cloudnative-pg.git
+    docs_path: "docs/src/**/*.md"
+    branch: main
+
+  - name: buildpacks
+    kind: git_docs
+    repo: https://github.com/buildpacks/docs.git
+    docs_path: "content/**/*.md"
+    branch: main
+
+  - name: longhorn
+    kind: git_docs
+    repo: https://github.com/longhorn/website.git
+    docs_path: "content/docs/**/*.md"
+    branch: master
+
+  - name: keptn
+    kind: git_docs
+    repo: https://github.com/keptn/lifecycle-toolkit.git
+    docs_path: "docs/content/en/docs/**/*.md"
+    branch: main
+
+  - name: kubevirt
+    kind: git_docs
+    repo: https://github.com/kubevirt/kubevirt.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: volcano
+    kind: git_docs
+    repo: https://github.com/volcano-sh/volcano.git
+    docs_path: "docs/**/*.md"
+    branch: master
+
+  - name: telepresence
+    kind: git_docs
+    repo: https://github.com/telepresenceio/telepresence.git
+    docs_path: "docs/**/*.md"
+    branch: release/v2
+
+  - name: thanos
+    kind: git_docs
+    repo: https://github.com/thanos-io/thanos.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: operator-framework
+    kind: git_docs
+    repo: https://github.com/operator-framework/operator-sdk.git
+    docs_path: "website/content/en/docs/**/*.md"
+    branch: master
+
+# ─────────────────────────────────────────────
+# Engineering Best Practices & Style Guides
+# ─────────────────────────────────────────────
+engineering_practices:
+  - name: google-eng-practices
+    kind: git_docs
+    repo: https://github.com/google/eng-practices.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: google-style-guides
+    kind: git_docs
+    repo: https://github.com/google/styleguide.git
+    docs_path: "**/*.md"
+    branch: gh-pages
+
+  - name: system-design-primer
+    kind: git_docs
+    repo: https://github.com/donnemartin/system-design-primer.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: microsoft-api-guidelines
+    kind: git_docs
+    repo: https://github.com/microsoft/api-guidelines.git
+    docs_path: "**/*.md"
+    branch: vNext
+
+  - name: architecture-decision-records
+    kind: git_docs
+    repo: https://github.com/joelparkerhenderson/architecture-decision-record.git
+    docs_path: "**/*.md"
+    branch: main
+
+  - name: twelve-factor-app
+    kind: web_docs
+    seed_url: https://12factor.net/
+    max_pages: 20
+    allowed_path_prefix: /
+
+  - name: aws-well-architected
+    kind: git_docs
+    repo: https://github.com/aws/aws-well-architected-labs.git
+    docs_path: "content/**/*.md"
+    branch: main
+
+# ─────────────────────────────────────────────
+# RFCs & Design Docs from Major Projects
+# ─────────────────────────────────────────────
+rfcs_and_design:
+  - name: kubernetes-enhancements
+    kind: git_docs
+    repo: https://github.com/kubernetes/enhancements.git
+    docs_path: "keps/**/*.md"
+    branch: master
+
+  - name: react-rfcs
+    kind: git_docs
+    repo: https://github.com/reactjs/rfcs.git
+    docs_path: "text/**/*.md"
+    branch: main
+
+  - name: rust-rfcs
+    kind: git_docs
+    repo: https://github.com/rust-lang/rfcs.git
+    docs_path: "text/**/*.md"
+    branch: master
+
+  - name: python-peps
+    kind: git_docs
+    repo: https://github.com/python/peps.git
+    docs_path: "peps/**/*.rst"
+    branch: main
+
+  - name: go-proposals
+    kind: git_docs
+    repo: https://github.com/golang/proposal.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: tc39-proposals
+    kind: git_docs
+    repo: https://github.com/tc39/proposals.git
+    docs_path: "**/*.md"
+    branch: main
+
+# ─────────────────────────────────────────────
+# Modern Frameworks & Tools Documentation
+# ─────────────────────────────────────────────
+frameworks_and_tools:
+  - name: nextjs-docs
+    kind: git_docs
+    repo: https://github.com/vercel/next.js.git
+    docs_path: "docs/**/*.md"
+    branch: canary
+
+  - name: react-docs
+    kind: git_docs
+    repo: https://github.com/reactjs/react.dev.git
+    docs_path: "src/content/**/*.md"
+    branch: main
+
+  - name: fastapi-docs
+    kind: git_docs
+    repo: https://github.com/fastapi/fastapi.git
+    docs_path: "docs/en/docs/**/*.md"
+    branch: master
+
+  - name: docker-docs
+    kind: git_docs
+    repo: https://github.com/docker/docs.git
+    docs_path: "content/**/*.md"
+    branch: main
+
+  - name: terraform-docs
+    kind: git_docs
+    repo: https://github.com/hashicorp/terraform.git
+    docs_path: "website/docs/**/*.mdx"
+    branch: main
+
+  - name: postgres-docs
+    kind: web_docs
+    seed_url: https://www.postgresql.org/docs/current/
+    max_pages: 200
+    allowed_path_prefix: /docs/current/
+
+  - name: redis-docs
+    kind: git_docs
+    repo: https://github.com/redis/redis-doc.git
+    docs_path: "**/*.md"
+    branch: master
+
+  - name: dagger-docs
+    kind: git_docs
+    repo: https://github.com/dagger/dagger.git
+    docs_path: "docs/**/*.md"
+    branch: main
+
+  - name: pulumi-docs
+    kind: git_docs
+    repo: https://github.com/pulumi/docs.git
+    docs_path: "content/**/*.md"
+    branch: master
+
+# ─────────────────────────────────────────────
+# Observability & SRE
+# ─────────────────────────────────────────────
+observability_sre:
+  - name: google-sre-book
+    kind: web_docs
+    seed_url: https://sre.google/sre-book/table-of-contents/
+    max_pages: 40
+    allowed_path_prefix: /sre-book/
+
+  - name: google-sre-workbook
+    kind: web_docs
+    seed_url: https://sre.google/workbook/table-of-contents/
+    max_pages: 30
+    allowed_path_prefix: /workbook/
+
+  - name: grafana-docs
+    kind: git_docs
+    repo: https://github.com/grafana/grafana.git
+    docs_path: "docs/sources/**/*.md"
+    branch: main
+
+# ─────────────────────────────────────────────
+# Security
+# ─────────────────────────────────────────────
+security:
+  - name: owasp-cheatsheets
+    kind: git_docs
+    repo: https://github.com/OWASP/CheatSheetSeries.git
+    docs_path: "cheatsheets/**/*.md"
+    branch: master
+
+  - name: owasp-testing-guide
+    kind: git_docs
+    repo: https://github.com/OWASP/wstg.git
+    docs_path: "document/**/*.md"
+    branch: master
+
+# ─────────────────────────────────────────────
+# Confluence Spaces
+# ─────────────────────────────────────────────
+# confluence:
+#   - name: engineering
+#     kind: confluence
+#     space_key: ENG
+#     max_pages: 500
+#     include_labels: [architecture, runbook]  # optional — omit to ingest all pages
+#
+#   - name: platform
+#     kind: confluence
+#     space_key: PLAT
+#     max_pages: 500
+#
+#   - name: architecture-docs
+#     kind: confluence
+#     page_ids: ["12345"]          # fetches this page + all subpages by default
+#     include_children: true       # set to false to skip subpages
+
+confluence:
+  - name: high-availability-workloads
+    kind: confluence
+    page_ids: ["7178878999"]
+  - name: covalent
+    kind: confluence
+    space_key: FFZU
+
+# ─────────────────────────────────────────────
+# My Projects
+# ─────────────────────────────────────────────
+my_projects:
+  - name: covalent-cloud-server
+    kind: git_full
+    repo: https://github.com/datarobot/covalent-cloud-server.git
+    branch: main
+  - name: workload-api
+    kind: git_full
+    repo: https://github.com/datarobot/workload-api.git
+    branch: main
+  - name: workload-monitor
+    kind: git_full
+    repo: https://github.com/datarobot/workload-monitor.git
+    branch: main
+  - name: covalent-cloud-sdk
+    kind: git_full
+    repo: https://github.com/datarobot/covalent-cloud-sdk.git
+    branch: main
+  - name: covalent-os
+    kind: git_full
+    repo: https://github.com/agnostiqHQ/covalent.git
+    branch: develop

@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg18
+    profiles: ["db"]
+    environment:
+      POSTGRES_USER: devctx
+      POSTGRES_PASSWORD: devctx
+      POSTGRES_DB: dev_context_engine
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devctx -d dev_context_engine"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+      - ./scripts/ollama-entrypoint.sh:/ollama-entrypoint.sh
+    entrypoint: ["/bin/bash", "/ollama-entrypoint.sh"]
+    environment:
+      - OLLAMA_MODELS=qwen2.5-coder:14b qwen2.5:14b llava:13b
+      - OLLAMA_CONTEXT_LENGTH=32000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      ollama:
+        condition: service_healthy
+    volumes:
+      - repos:/data/repos
+      - ./knowledge:/app/knowledge
+    restart: unless-stopped
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "3000:8080"
+    environment:
+      - OPENAI_API_BASE_URLS=http://app:8080/v1
+      - OPENAI_API_KEYS=not-needed
+      - WEBUI_AUTH=false
+      - ENABLE_OLLAMA_API=false
+    depends_on:
+      - app
+    volumes:
+      - webui_data:/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  repos:
+  ollama_models:
+  webui_data:
